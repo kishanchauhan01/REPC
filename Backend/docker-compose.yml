@@ -1,4 +1,25 @@
 services:
+  postgres:
+    image: postgres:18
+    container_name: postgres-db
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: RPES
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: .
@@ -15,22 +36,6 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-
-  postgres:
-    image: postgres:18
-    container_name: postgres-db
-    restart: always
-
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: RPES
-
-    ports:
-      - "5433:5432"
-
-    volumes:
-      - postgres-data:/var/lib/postgresql
 
   redis:
     image: redis

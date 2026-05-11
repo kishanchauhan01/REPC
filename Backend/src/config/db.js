@@ -16,4 +16,4 @@ const db = {
   },
 };
 
-export { db };
+export { db, pool };
