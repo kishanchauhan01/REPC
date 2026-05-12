@@ -24,15 +24,21 @@ services:
   backend:
     build: .
     container_name: backend-app
+
     ports:
       - "3000:3000"
+
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
     environment:
       DATABASE_URL: postgres://postgres:admin123@postgres:5432/RPES
       REDIS_URL: redis://redis:6379
       CHOKIDAR_USEPOLLING: "true"
+
     volumes:
       - .:/app
       - /app/node_modules
@@ -40,12 +46,14 @@ services:
   redis:
     image: redis
     container_name: redis-server
+
     ports:
       - "6379:6379"
 
   redisinsight:
     image: redis/redisinsight
     container_name: redisinsight
+    
     ports:
       - "5540:5540"
 

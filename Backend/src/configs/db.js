@@ -10,6 +10,7 @@ const db = {
       return await client.query(text, params);
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       client.release();
     }

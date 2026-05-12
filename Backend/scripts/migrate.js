@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { pool } from "../src/config/db.js";
+import { pool } from "../src/configs/db.js";
 
 async function migrate() {
   try {

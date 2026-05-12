@@ -3,6 +3,7 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -32,5 +33,11 @@ app.get("/health", (req, res) => {
     message: "API running successfully",
   });
 });
+
+import authRouter from "./modules/auth/auth.routes.js";
+
+app.use("/api/v1/auth", authRouter);
+
+app.use(errorHandler);
 
 export { app };
